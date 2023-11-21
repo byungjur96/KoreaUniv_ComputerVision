@@ -49,26 +49,26 @@ model:
         num_heads: 1
         num_head_channels: 64
         num_heads_upsample: -1
-        use_scale_shift_norm: ture
+        use_scale_shift_norm: true
         resblock_updown: true
         use_new_attention_order: false
 
 data:
   target: main.DataModuleFromConfig
   params:
-    batch_size: 8
+    batch_size: 2
     num_workers: 0
     wrap: false
     train:
       target: datasets.polyp.PolypBase
       params:
-        name: ${train_data_dir}  # train_data_dir
+        name: TrainDataset  # train_data_dir
         size: 384
 
     validation:
       target: datasets.polyp.PolypBase
       params:
-        name: ${test_data_dir}  # test_data_dir
+        name: TestDataset/CVC-300  # test_data_dir
         size: 384
 
 
@@ -92,4 +92,4 @@ lightning:
     max_epochs: 100
     check_val_every_n_epoch: 1
     accelerator: gpu
-    devices: 0,
+    devices: 3,

@@ -1,4 +1,5 @@
 import sys
+import os
 
 sys.path.append("../")
 from torch.utils.data import Dataset, DataLoader
@@ -10,7 +11,8 @@ from pathlib import Path
 import cv2
 from natsort import natsorted
 
-workspace = Path("~/.workspace").expanduser().as_posix()
+# workspace = Path("~/.workspace").expanduser().as_posix()
+workspace = Path("/workspace").expanduser().as_posix()
 
 
 class PolypBase(Dataset):
@@ -38,8 +40,9 @@ class PolypBase(Dataset):
         self._prepare()
 
     def _prepare(self):
-        self.root = Path(workspace).joinpath("datasets/diffusion_datasets", self.name).as_posix()
-
+        # self.root = Path(workspace).joinpath("datasets/diffusion_datasets", self.name).as_posix()
+        self.root = Path(workspace).joinpath("ARSDM", self.name).as_posix()
+        
         self.images_dir = Path(self.root).joinpath("images").as_posix()
         self.masks_dir = Path(self.root).joinpath("masks").as_posix()
 
