@@ -1,5 +1,5 @@
 exp:
-  exp_name: ArSDM_base
+  exp_name: ArSDM_PAIP
   train: True
   resume: None
   seed: 23
@@ -18,13 +18,13 @@ model:
     loss_type: l1
     first_stage_key: image
     cond_stage_key: segmentation
-    image_size: 384
+    image_size: 400
     channels: 3
 
     unet_config:
       target: guided_diffusion.unet.UNetModel
       params:
-        image_size: 384
+        image_size: 400
         in_channels: 3
         out_channels: 3
         model_channels: 256
@@ -62,14 +62,14 @@ data:
     train:
       target: datasets.polyp.PolypBase
       params:
-        name: TestDataset/CVC-ClinicDB  # train_data_dir
-        size: 384
+        name: train  # train_data_dir
+        size: 400
 
     validation:
       target: datasets.polyp.PolypBase
       params:
-        name: TestDataset/CVC-300  # test_data_dir
-        size: 384
+        name: test_1242  # test_data_dir
+        size: 400
 
 
 lightning:
@@ -92,4 +92,4 @@ lightning:
     max_epochs: 100
     check_val_every_n_epoch: 1
     accelerator: gpu
-    devices: 3,
+    devices: 2,

@@ -41,20 +41,20 @@ class PolypBase(Dataset):
 
     def _prepare(self):
         # self.root = Path(workspace).joinpath("datasets/diffusion_datasets", self.name).as_posix()
-        self.root = Path(workspace).joinpath("ARSDM", self.name).as_posix()
+        self.root = Path(workspace).joinpath("ARSDM/PAIP", self.name).as_posix()
         
-        self.images_dir = Path(self.root).joinpath("images").as_posix()
-        self.masks_dir = Path(self.root).joinpath("masks").as_posix()
+        self.images_dir = Path(self.root).joinpath("origs").as_posix()
+        self.masks_dir = Path(self.root).joinpath("gts").as_posix()
 
         print(f"Preparing dataset {self.name}")
 
-        self.images_list_absolute = Path(self.images_dir).rglob("*.png")
+        self.images_list_absolute = Path(self.images_dir).rglob("*.tif")
 
         self.images_list_absolute = [file_path.as_posix() for file_path in self.images_list_absolute]
         self.images_list_absolute = natsorted(self.images_list_absolute)
 
         self.masks_list_absolute = [
-            Path(self.masks_dir).joinpath(f"{Path(p).stem}.png").as_posix() for p in self.images_list_absolute
+            Path(self.masks_dir).joinpath(f"{Path(p).stem}.tif").as_posix() for p in self.images_list_absolute
         ]
 
     def __getitem__(self, i):
@@ -62,7 +62,7 @@ class PolypBase(Dataset):
         image = Image.open(self.images_list_absolute[i]).convert("RGB")
         image = np.array(image).astype(np.uint8)
 
-        mask = Image.open(self.masks_list_absolute[i]).convert("L")
+        mask = Image.open(self.masks_list_absolute[i].replace('_orig', '_gt')).convert("L")
         mask = np.array(mask).astype(np.uint8)
 
         _preprocessor = self.preprocessor(image=image, mask=mask)

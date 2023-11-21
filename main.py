@@ -22,10 +22,10 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-workspace = Path("~/.workspace").expanduser().as_posix()
+# workspace = Path("~/.workspace").expanduser().as_posix()
+workspace = Path("/workspace").expanduser().as_posix()
 
-
-CONFIG_FILE_PATH = "configs/ArSDM_base.yaml"  # TODO: specify this
+CONFIG_FILE_PATH = "configs/ArSDM_PAIP.yaml"  # TODO: specify this
 # CONFIG_FILE_PATH = "configs/ArSDM_adaptive.yaml"
 # CONFIG_FILE_PATH = "configs/ArSDM_refine.yaml"
 # CONFIG_FILE_PATH = "configs/ArSDM_our.yaml"

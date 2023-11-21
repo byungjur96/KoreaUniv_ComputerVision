@@ -593,7 +593,7 @@ class ArSDM(DDPM):
         # create one-hot label map
         label_map = data
         bs, _, h, w = label_map.size()
-        nc = 2
+        nc = 3
         input_label = torch.FloatTensor(bs, nc, h, w).zero_()
         input_label = input_label.to(self.device)
         input_semantics = input_label.scatter_(1, label_map, 1.0)
@@ -604,6 +604,9 @@ class ArSDM(DDPM):
 
     def shared_step(self, batch, **kwargs):
         x, xc, c = self.get_input(batch=batch, k=self.first_stage_key, cond_key=self.cond_stage_key)
+        # print(x.shape) torch.Size([2, 3, 400, 400])
+        # print(xc.shape) torch.Size([2, 2, 400, 400])
+        # print(c.shape)  torch.Size([2, 1, 400, 400])
 
         loss = self(x, xc, mask=c)
 
@@ -978,6 +981,9 @@ class DiffusionWrapper(pl.LightningModule):
         self.diffusion_model = instantiate_from_config(diff_model_config)
 
     def forward(self, x, t, cond, **kwargs):
+        print(x.shape)
+        print(t.shape)
+        print(cond.shape)
         out = self.diffusion_model(x, t, cond)
 
         return out
